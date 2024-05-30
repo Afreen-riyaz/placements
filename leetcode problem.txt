@@ -1,4 +1,4 @@
-1.Two Sum Problem
+1 .Two Sum Problem
 Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
 
 You may assume that each input would have exactly one solution, and you may not use the same element twice.
@@ -18,134 +18,65 @@ Example 3:
 
 Input: nums = [3,3], target = 6
 Output: [0,1]
- 
+
 Constraints:
 
 2 <= nums.length <= 104
 -109 <= nums[i] <= 109
 -109 <= target <= 109
 Only one valid answer exists.
-
-
-Solution:
-
+//solution
 int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
-    *returnSize = 2;
-    int* result = (int*)malloc(*returnSize * sizeof(int));
-    for(int i = 0; i < numsSize; i++) {
-        for(int j = i + 1; j < numsSize; j++) {
-            if(nums[i] + nums[j] == target) {
+    for (int i = 0; i < numsSize; i++) {
+        for (int j = i + 1; j < numsSize; j++) {
+            if (nums[j] == target - nums[i]) {
+                int* result = malloc(sizeof(int) * 2);
                 result[0] = i;
                 result[1] = j;
+                *returnSize = 2;
                 return result;
             }
         }
     }
+    // In case there is no solution, return NULL
     *returnSize = 0;
     return NULL;
 }
 
-2.Palindrome Number
+
+2. Palindrome Number
 Given an integer x, return true if x is a 
-palindrome
-, and false otherwise.
-
- 
-
+palindrome, and false otherwise.
 Example 1:
-
 Input: x = 121
 Output: true
 Explanation: 121 reads as 121 from left to right and from right to left.
 Example 2:
-
 Input: x = -121
 Output: false
 Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
 Example 3:
-
 Input: x = 10
 Output: false
 Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
- 
 Constraints:
-
 -231 <= x <= 231 - 1
-
 Follow up: Could you solve it without converting the integer to a string?
+//solution as follows
 
-Solution:
-
-bool isPalindrome(int x) {
-    int n, d, k = 0;
-    
-    if (x < 0) return false;
-    
-    n = x;
-    while (n) {
-        d = n % 10;
-        if (k > (0x7fffffff - d) / 10) return false;    // overflow
-        k = k * 10 + d;
-        n = n / 10;
+bool isPalindrome(int x){
+    if(x<0 || x!=0 && x%10 ==0 ) return false;
+    int check=0;
+    while(x>check){
+        check = check*10 + x%10;
+        x/=10;
     }
-    
-    return (k == x);
-}
-
-6. ZigZag Conversion
-
-The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
-P   A   H   N
-A P L S I I G
-Y   I   R
-
-
-And then read line by line: "PAHNAPLSIIGYIR"
-
-
-Write the code that will take a string and make this conversion given a number of rows:
-
-string convert(string text, int nRows);
-
-convert("PAYPALISHIRING", 3) should return "PAHNAPLSIIGYIR".
-*/
-
-char* convert(char* s, int numRows) {
-    int len;
-    int i, j, k = 0;
-    char *p;
-    int step, up;
-    
-    if (!s || !*s || numRows == 1) return s;
-    
-    len = strlen(s);
-    p = malloc((len + 1) * sizeof(char));
-    //assert(p);
-    
-    step = (numRows - 1) * 2;       // max span
-    
-    for (i = 0; i < numRows; i ++) {
-        j = i;                      // first letter of each row
-        up = 1;
-        while (j < len) {
-            p[k ++] = s[j];
-            if (i == 0 || i == numRows - 1) {
-                j += step;          // full span
-            } else if (up) {
-                j += step - i * 2;  // full span - offset
-                up = 0;
-            } else {
-                j += i * 2;         // offset
-                up = 1;
-            }
-        }
-    }
-    p[k] = 0;
-    return p;
+    return (x==check || x==check/10);
 }
 
 
-4.Roman to integer
+
+3. Roman to integer
 Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
 
 Symbol       Value
@@ -164,9 +95,6 @@ I can be placed before V (5) and X (10) to make 4 and 9.
 X can be placed before L (50) and C (100) to make 40 and 90. 
 C can be placed before D (500) and M (1000) to make 400 and 900.
 Given a roman numeral, convert it to an integer.
-
- 
-
 Example 1:
 
 Input: s = "III"
@@ -182,52 +110,68 @@ Example 3:
 Input: s = "MCMXCIV"
 Output: 1994
 Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
- 
+
 
 Constraints:
 
 1 <= s.length <= 15
 s contains only the characters ('I', 'V', 'X', 'L', 'C', 'D', 'M').
 It is guaranteed that s is a valid roman numeral in the range [1, 3999].
-
-
-Solution:
-#include <string.h>
-
-int value(char r) {
-    switch(r) {
-        case 'I': return 1;
-        case 'V': return 5;
-        case 'X': return 10;
-        case 'L': return 50;
-        case 'C': return 100;
-        case 'D': return 500;
-        case 'M': return 1000;
-        default: return 0;
+//solution
+int check(char c)
+{
+    if (c == 'I')
+    {
+        return 1;
     }
+    else if (c == 'V')
+    {
+        return 5;
+    }
+    else if (c == 'X')
+    {
+        return 10;
+    }
+    else if (c == 'L')
+    {
+        return 50;
+    }
+    else if (c == 'C')
+    {
+        return 100;
+    }
+    else if (c == 'D')
+    {
+        return 500;
+    }
+    return 1000;
 }
+int romanToInt(char *s)
+{
+    int val = 0;
+    int l = strlen(s);
+    int i = l - 1;
 
-int romanToInt(char* s) {
-    int sum = 0;
-    int len = strlen(s);
-    for (int i = 0; i < len; i++) {
-        int s1 = value(s[i]);
-        if (i+1 < len) {
-            int s2 = value(s[i+1]);
-            if (s1 >= s2)
-                sum += s1;
-            else {
-                sum += (s2 - s1);
-                i++; 
-            }
-        } else {
-            sum += s1;
+    while (i >= 0)
+    {
+        int a1 = check(s[i]);
+        int a2 = (i > 0) ? check(s[i - 1]) : 0;
+
+        val += a1;
+
+        if (a1 > a2)
+        {
+            val -= a2;
+            i--; 
         }
+
+        i--;
     }
-    return sum;
+
+    return val;
 }
 
-5. Find the XOR of Numbers Which Appear Twice.
+4. Find the XOR of Numbers Which Appear Twice.
 You are given an array nums, where each number in the array appears either once or twice.
 Return the bitwise XOR of all the numbers that appear twice in the array, or 0 if no number appears twice.
 
@@ -248,43 +192,357 @@ Input: nums = [1,2,2,1]
 Output: 3
 Explanation:
 Numbers 1 and 2 appeared twice. 1 XOR 2 == 3.
-
-Solution:
+//solution
 
 int duplicateNumbersXOR(int* nums, int numsSize) {
+    int d[51] = {0};
+    for(int i=0;i<numsSize;i++){ d[nums[i]]++; }
+    int answer = 0;
+    for(int i=0;i<=50;i++){ if(d[i]==2){answer^=i;} }
+    return answer;
+}
 
-    /*
-     * Input:
-     *  *nums
-     *  numsSize
-     */
+/*Run Code Result
+output
+Accepted
+Runtime: 0 ms
+Your input
+[1,2,1,3]
+Output
+1
+Expected
+1*/
 
-    int *freq = (int *)calloc(1, sizeof(int) * 51);
-    int ans = 0;
+5. Zigzag Conversion
+The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
 
-    /*
-     * Algorithm:
-     *  (1) Count the frequenices of numbers 
-     *  (2) Find the number appears twice, accmulate XOR result
-     */
+P   A   H   N
+A P L S I I G
+Y   I   R
+And then read line by line: "PAHNAPLSIIGYIR"
 
-    for (int i = 0; i < numsSize; i++) {
-        freq[nums[i]]++;
-    }
+Write the code that will take a string and make this conversion given a number of rows:
 
-    for (int i = 1; i <= 50; i++) {
-        if (freq[i] == 2) {
-            ans ^= i;
+string convert(string s, int numRows);
+ 
+
+Example 1:
+
+Input: s = "PAYPALISHIRING", numRows = 3
+Output: "PAHNAPLSIIGYIR"
+Example 2:
+
+Input: s = "PAYPALISHIRING", numRows = 4
+Output: "PINALSIGYAHRPI"
+Explanation:
+P     I    N
+A   L S  I G
+Y A   H R
+P     I
+Example 3:
+
+Input: s = "A", numRows = 1
+Output: "A"
+ 
+Constraints:
+
+1 <= s.length <= 1000
+s consists of English letters (lower-case and upper-case), ',' and '.'.
+1 <= numRows <= 1000
+
+//solution
+char * convert(char * s, int row){
+    int N = strlen(s);
+    if(N<=row || row==1)return s;
+
+    char ans[N+1];
+    ans[0] = s[0];
+    int i, a=0, j;
+    int fall = row*2-2, rise = 0;
+    for(i=fall; i<N; i+=fall)
+        ans[++a] = s[i];
+
+    for(i=1; i<row-1; i++){
+        fall-=2, rise+=2;
+        for(j=i; j<N;){
+            ans[++a] = s[j];
+            j+=fall;
+            if(j>=N) break;
+            ans[++a] = s[j];
+            j+=rise;
         }
     }
 
-    free(freq);
+    fall = row*2-2;
+    for(; i<N; i+=fall)
+        ans[++a] = s[i];
+    for(i=0; i<N; i++)
+        s[i]=ans[i];
+    return s;
+}
+/*
+Complexity
+Time complexity:
+Space complexity:
+C :-
+--	Details	--
+Runtime	0 ms	Beats 100%
+Memory	6.2 MB	Beats 98%
+*/
 
-    /*
-     * Output:
-     *  Return the bitwise XOR of all the numbers that appear twice in 
-     *  the array, or 0 if no number appears twice.
-     */
+6. valid parenthesis
 
-    return ans;
+Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+An input string is valid if:
+Open brackets must be closed by the same type of brackets.
+Open brackets must be closed in the correct order.
+Every close bracket has a corresponding open bracket of the same type.
+ 
+Example 1:
+Input: s = "()"
+Output: true
+
+Example 2:
+Input: s = "()[]{}"
+Output: true
+
+Example 3:
+Input: s = "(]"
+Output: false
+ 
+Constraints:
+1 <= s.length <= 104
+s consists of parentheses only '()[]{}'.
+//solution
+bool isValid(char * s){
+    int len=strlen(s), iSs=1;
+    char ss[len]; ss[0]=*s;
+
+    for(int i=1; i<len; i++){
+        if(iSs > 0 && ((s[i] == ')' && ss[iSs-1] == '(')
+                    || (s[i] == ']' && ss[iSs-1] == '[')
+                    || (s[i] == '}' && ss[iSs-1] == '{'))
+        ) { iSs--; continue; }
+        ss[iSs] = s[i]; iSs++;
+    }
+
+    return iSs==0;
+}
+/*
+Run Code Result
+Accepted
+Runtime: 0 ms
+Your input
+"()"
+Output
+true
+Expected
+true
+*/
+
+7. Merge Two Sorted Lists
+
+You are given the heads of two sorted linked lists list1 and list2.
+Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.
+Return the head of the merged linked list.
+
+Example 1:
+
+
+Input: list1 = [1,2,4], list2 = [1,3,4]
+Output: [1,1,2,3,4,4]
+Example 2:
+
+Input: list1 = [], list2 = []
+Output: []
+Example 3:
+
+Input: list1 = [], list2 = [0]
+Output: [0]
+ 
+
+Constraints:
+
+The number of nodes in both lists is in the range [0, 50].
+-100 <= Node.val <= 100
+Both list1 and list2 are sorted in non-decreasing order.
+//solution
+
+struct ListNode* mergeTwoLists(struct ListNode* list1, struct ListNode* list2) {
+    if(list1!=NULL && list2!=NULL)
+    {
+        if(list1->val<list2->val)
+        {
+            list1->next=mergeTwoLists(list1->next,list2);
+            return list1;
+        }
+        else
+        {
+            list2->next=mergeTwoLists(list1,list2->next);
+            return list2;
+        }
+    }
+    if(list1==NULL)
+    {
+        return list2;
+    }
+    return list1;
+}
+
+/*
+208 / 208 test cases passed.
+Status: Accepted
+Runtime: 1 ms
+Memory Usage: 5.9 MB
+*/
+
+8. Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string "".
+Example 1:
+
+Input: strs = ["flower","flow","flight"]
+Output: "fl"
+Example 2:
+
+Input: strs = ["dog","racecar","car"]
+Output: ""
+Explanation: There is no common prefix among the input strings.
+ 
+Constraints:
+1 <= strs.length <= 200
+0 <= strs[i].length <= 200
+strs[i] consists of only lowercase English letters.
+
+//solution
+char * longestCommonPrefix(char ** strs, int strsSize){
+    int index = strlen(strs[0]);
+    for (int i = 1; index > 0 && i < strsSize; i++) {
+        int j = 0, len = strlen(strs[i]);
+        while(j < index && j < len && strs[i][j] == strs[0][j])
+            j++;
+        index = j;
+    }
+    strs[0][index] = '\0';
+    return strs[0];
+}
+
+9. Remove Duplicates from Sorted Array
+Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.
+
+Consider the number of unique elements of nums to be k, to get accepted, you need to do the following things:
+
+Change the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.
+Return k.
+Custom Judge:
+
+The judge will test your solution with the following code:
+
+int[] nums = [...]; // Input array
+int[] expectedNums = [...]; // The expected answer with correct length
+
+int k = removeDuplicates(nums); // Calls your implementation
+
+assert k == expectedNums.length;
+for (int i = 0; i < k; i++) {
+    assert nums[i] == expectedNums[i];
+}
+If all assertions pass, then your solution will be accepted.
+
+ 
+
+Example 1:
+
+Input: nums = [1,1,2]
+Output: 2, nums = [1,2,_]
+Explanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+Example 2:
+
+Input: nums = [0,0,1,1,1,2,2,3,3,4]
+Output: 5, nums = [0,1,2,3,4,_,_,_,_,_]
+Explanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+ 
+
+Constraints:
+
+1 <= nums.length <= 3 * 104
+-100 <= nums[i] <= 100
+nums is sorted in non-decreasing order.
+//solution
+int removeDuplicates(int* nums, int numsSize){
+    int new_size = numsSize;
+    for (int idx = 0, i = 0, j = 1; i < numsSize; idx++, j++) {
+        while(j < numsSize && nums[i] == nums[j]) {
+            j++;
+            new_size--;
+        }
+        nums[idx] = nums[j-1];
+        i = j;
+    }
+    return new_size;
+}
+
+10.  Remove Element
+Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.
+
+Consider the number of elements in nums which are not equal to val be k, to get accepted, you need to do the following things:
+
+Change the array nums such that the first k elements of nums contain the elements which are not equal to val. The remaining elements of nums are not important as well as the size of nums.
+Return k.
+Custom Judge:
+
+The judge will test your solution with the following code:
+
+int[] nums = [...]; // Input array
+int val = ...; // Value to remove
+int[] expectedNums = [...]; // The expected answer with correct length.
+                            // It is sorted with no values equaling val.
+
+int k = removeElement(nums, val); // Calls your implementation
+
+assert k == expectedNums.length;
+sort(nums, 0, k); // Sort the first k elements of nums
+for (int i = 0; i < actualLength; i++) {
+    assert nums[i] == expectedNums[i];
+}
+If all assertions pass, then your solution will be accepted.
+
+ 
+
+Example 1:
+
+Input: nums = [3,2,2,3], val = 3
+Output: 2, nums = [2,2,_,_]
+Explanation: Your function should return k = 2, with the first two elements of nums being 2.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+Example 2:
+
+Input: nums = [0,1,2,2,3,0,4,2], val = 2
+Output: 5, nums = [0,1,4,0,3,_,_,_]
+Explanation: Your function should return k = 5, with the first five elements of nums containing 0, 0, 1, 3, and 4.
+Note that the five elements can be returned in any order.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+ 
+
+Constraints:
+
+0 <= nums.length <= 100
+0 <= nums[i] <= 50
+0 <= val <= 100
+//solution
+int removeElement(int* nums, int numsSize, int val) {
+    for (int i = 0; i < numsSize; i++) {
+        if (nums[i] == val) 
+        {
+            for (int j = i; j < numsSize - 1; j++)
+            {
+                nums[j] = nums[j + 1];
+            }
+            numsSize--;
+            i--;
+        }
+    }
+    return numsSize;
 }
